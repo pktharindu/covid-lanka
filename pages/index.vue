@@ -19,7 +19,7 @@
           <span
             class="bg-indigo-500 font-bold font-mono inline-block mt-5 px-2 py-1 rounded-full text-white text-xs tracking-wider"
           >
-            Mar 20, 2020 10:43 PM
+            {{ $moment(healthAPI.update_date_time).format('LLL') }}
           </span>
           <p class="mt-6 max-w-2xl text-xl leading-7 text-gray-500 lg:mx-auto">
             This might take several minutes to be updated, since Health
@@ -47,7 +47,11 @@
             <span
               class="-translate-y-4 font-extrabold text-4xl text-center text-blue-600 transform"
             >
-              {{ numberFormat(healthAPI.local_new_cases) }}
+              <animated-number
+                :value="healthAPI.local_new_cases"
+                :formatValue="numberFormat"
+                :duration="duration"
+              />
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -66,7 +70,11 @@
             <span
               class="-translate-y-4 font-extrabold text-4xl text-center text-purple-600 transform"
             >
-              {{ numberFormat(healthAPI.local_total_cases) }}
+              <animated-number
+                :value="healthAPI.local_total_cases"
+                :formatValue="numberFormat"
+                :duration="duration"
+              />
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -75,6 +83,7 @@
             </span>
           </div>
           <div
+            v-if="!healthAPI.local_deaths"
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
@@ -85,16 +94,42 @@
             <span
               class="-translate-y-4 font-extrabold text-4xl text-center text-teal-600 transform"
             >
-              {{
-                numberFormat(
+              <animated-number
+                :value="
                   healthAPI.local_total_number_of_individuals_in_hospitals
-                )
-              }}
+                "
+                :formatValue="numberFormat"
+                :duration="duration"
+              />
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
             >
               Hospitalizations
+            </span>
+          </div>
+          <div
+            v-if="healthAPI.local_deaths"
+            class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
+          >
+            <div
+              class="-translate-y-1/2 bg-red-100 border-2 border-white h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
+            >
+              <Death class="w-3/5 text-red-500" />
+            </div>
+            <span
+              class="-translate-y-4 font-extrabold text-4xl text-center text-red-600 transform"
+            >
+              <animated-number
+                :value="healthAPI.local_deaths"
+                :formatValue="numberFormat"
+                :duration="duration"
+              />
+            </span>
+            <span
+              class="font-semibold text-center text-gray-600 text-sm uppercase"
+            >
+              New Deaths
             </span>
           </div>
           <div
@@ -108,12 +143,16 @@
             <span
               class="-translate-y-4 font-extrabold text-4xl text-center text-red-600 transform"
             >
-              {{ numberFormat(healthAPI.local_deaths) }}
+              <animated-number
+                :value="healthAPI.local_deaths"
+                :formatValue="numberFormat"
+                :duration="duration"
+              />
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
             >
-              Deaths
+              Total Deaths
             </span>
           </div>
           <div
@@ -127,14 +166,13 @@
             <span
               class="-translate-y-4 font-extrabold text-4xl text-center text-orange-600 transform"
             >
-              {{
-                parseFloat(
-                  (
-                    (healthAPI.local_deaths / healthAPI.local_total_cases) *
-                    100
-                  ).toFixed(2)
-                )
-              }}%
+              <animated-number
+                :value="
+                  (healthAPI.local_deaths / healthAPI.local_total_cases) * 100
+                "
+                :formatValue="floatFormat"
+                :duration="duration"
+              />%
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -153,7 +191,11 @@
             <span
               class="-translate-y-4 font-extrabold text-4xl text-center text-green-600 transform"
             >
-              {{ numberFormat(healthAPI.local_recovered) }}
+              <animated-number
+                :value="healthAPI.local_recovered"
+                :formatValue="numberFormat"
+                :duration="duration"
+              />
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -166,8 +208,8 @@
       <p
         class="-translate-y-12 leading-7 mt-6 text-center text-gray-500 text-sm transform"
       >
-        * Since Health Promotion Bureau is issuing verified data from reliable
-        sources, this might take several minutes to be updated.
+        * Since the Health Promotion Bureau is issuing verified data from
+        reliable sources, this might take several minutes to be updated.
       </p>
 
       {{ healthAPI }}
@@ -183,6 +225,7 @@ import Patient from '../components/icons/Patient'
 import Death from '../components/icons/Death'
 import Chart from '../components/icons/Chart'
 import Wellness from '../components/icons/Wellness'
+import AnimatedNumber from 'animated-number-vue'
 export default {
   components: {
     Logo,
@@ -191,10 +234,13 @@ export default {
     Patient,
     Death,
     Chart,
-    Wellness
+    Wellness,
+    AnimatedNumber
   },
   data() {
     return {
+      value: 0,
+      duration: 2000,
       healthAPI: {}
     }
   },
@@ -207,7 +253,13 @@ export default {
   },
   methods: {
     numberFormat(num) {
-      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      return num
+        .toFixed(0)
+        .toString()
+        .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    },
+    floatFormat(num) {
+      return parseFloat(num.toFixed(2))
     }
   }
 }

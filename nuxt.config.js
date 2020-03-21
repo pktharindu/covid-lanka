@@ -75,6 +75,11 @@ export default {
       }
     ]
   },
+  pwa: {
+    manifest: {
+      name: 'COVID-19 Sri Lanka'
+    }
+  },
   /*
    ** Customize the progress-bar color
    */

@@ -7,7 +7,14 @@ export default {
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        name: 'author',
+        content: 'P. K. Tharindu'
+      },
       {
         hid: 'description',
         name: 'description',
@@ -19,7 +26,7 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#5a67d8' },
   /*
    ** Global CSS
    */

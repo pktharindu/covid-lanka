@@ -1,7 +1,7 @@
 {
   "name": "covid-lanka",
   "version": "1.0.0",
-  "description": "COVID-19 Situation Report for Sri Lanka",
+  "description": "COVID-19 Stats for Sri Lanka",
   "author": "P. K. Tharindu",
   "private": true,
   "scripts": {

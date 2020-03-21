@@ -4,7 +4,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'COVID-19 Sri Lanka',
     meta: [
       { charset: 'utf-8' },
       {
@@ -21,7 +21,17 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://unpkg.com/balloon-css/balloon.min.css'
+      }
+    ]
   },
   /*
    ** Customize the progress-bar color

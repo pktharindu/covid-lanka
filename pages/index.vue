@@ -3,11 +3,11 @@
     <section class="bg-gray-200 pt-16 pb-40">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center mb-5">
-          <Logo class="text-indigo-600 w-12 h-12" />
+          <Logo class="text-indigo-600 w-16 h-16" />
           <span
-            class="font-semibold leading-6 ml-3 text-indigo-600 text-xl tracking-wide uppercase"
+            class="font-semibold leading-6 ml-3 text-indigo-600 text-2xl tracking-wide"
           >
-            COVID-19
+            COVID-19 Sri Lanka
           </span>
         </div>
         <div class="text-center">
@@ -24,7 +24,7 @@
           <p class="leading-10 max-w-2xl mt-6 mx-auto text-gray-500 text-xl">
             Be
             <span class="font-semibold text-indigo-600 uppercase">ready</span>
-            for #coronavirus. Be
+            for coronavirus. Be
             <span class="font-semibold text-indigo-600 uppercase">safe</span>
             from coronavirus infection. Be
             <span class="font-semibold text-indigo-600 uppercase">SMART</span>
@@ -267,7 +267,7 @@
         </div>
       </div>
       <p
-        class="-translate-y-12 leading-7 mt-6 text-center text-gray-500 text-sm transform"
+        class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 -translate-y-12 leading-7 mt-6 text-center text-gray-500 text-sm transform"
       >
         * Since the Health Promotion Bureau is issuing verified data from
         reliable sources, this might take several minutes to be updated.

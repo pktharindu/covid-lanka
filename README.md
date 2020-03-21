@@ -1,6 +1,8 @@
 # covid-lanka
 
-> My first-class Nuxt.js project
+[![Netlify Status](https://api.netlify.com/api/v1/badges/72c42416-4b54-4690-8b17-f0d153d7616f/deploy-status)](https://app.netlify.com/sites/covid-lanka/deploys)
+
+Coronavirus (COVID-19) Disease Pandemic Statistics in Sri Lanka
 
 ## Build Setup
 

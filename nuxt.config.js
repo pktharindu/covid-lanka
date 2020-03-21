@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
   mode: 'universal',
   /*
@@ -19,6 +21,42 @@ export default {
         hid: 'description',
         name: 'description',
         content: process.env.npm_package_description || ''
+      },
+      {
+        name: 'og:title',
+        content: 'COVID-19 Sri Lanka'
+      },
+      {
+        name: 'og:url',
+        content: process.env.BASE_URL || 'http://localhost:3000'
+      },
+      {
+        name: 'og:description',
+        content: process.env.npm_package_description || ''
+      },
+      {
+        name: 'og:image',
+        content:
+          (process.env.BASE_URL || 'http://localhost:3000') +
+          '/social-banner.png'
+      },
+      {
+        name: 'twitter:title',
+        content: 'COVID-19 Sri Lanka'
+      },
+      {
+        name: 'twitter:description',
+        content: process.env.npm_package_description || ''
+      },
+      {
+        name: 'twitter:url',
+        content: process.env.BASE_URL || 'http://localhost:3000'
+      },
+      {
+        name: 'twitter:image',
+        content:
+          (process.env.BASE_URL || 'http://localhost:3000') +
+          '/social-banner.png'
       }
     ],
     link: [
@@ -49,6 +87,7 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
+    '@nuxtjs/dotenv',
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
     // Doc: https://github.com/nuxt-community/nuxt-tailwindcss

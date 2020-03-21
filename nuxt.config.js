@@ -77,7 +77,9 @@ export default {
   },
   pwa: {
     manifest: {
-      name: 'COVID-19 Sri Lanka'
+      name: 'COVID-19 Sri Lanka',
+      short_name: 'COVID-19 Sri Lanka',
+      title: 'COVID-19 Sri Lanka'
     }
   },
   /*

@@ -137,14 +137,14 @@
             </div>
             <span
               :aria-label="
-                numberFormat(hospitalizations) + ' individuals in hospitals'
+                numberFormat(hospitalized) + ' individuals in hospitals'
               "
               data-balloon-length="medium"
               data-balloon-pos="up"
               class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-teal-600 transform"
             >
               <animated-number
-                :value="hospitalizations"
+                :value="hospitalized"
                 :formatValue="numberFormat"
                 :duration="duration"
               />
@@ -152,7 +152,7 @@
             <span
               class="font-semibold lg:mt-0 mt-3 text-center text-gray-600 text-sm uppercase"
             >
-              Hospitalizations
+              Hospitalized
             </span>
           </div>
           <div
@@ -316,7 +316,7 @@ export default {
         ? this.healthAPI.global_total_cases
         : this.healthAPI.local_total_cases
     },
-    hospitalizations() {
+    hospitalized() {
       return this.healthAPI.local_total_number_of_individuals_in_hospitals
     },
     newDeaths() {

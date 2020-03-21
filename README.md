@@ -1,8 +1,8 @@
-# covid-lanka
+# COVID-19 Sri Lanka
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/72c42416-4b54-4690-8b17-f0d153d7616f/deploy-status)](https://app.netlify.com/sites/covid-lanka/deploys)
 
-Coronavirus (COVID-19) Disease Pandemic Statistics in Sri Lanka
+![Banner](https://raw.githubusercontent.com/pktharindu/covid-lanka/master/static/social-banner.png)
 
 ## Build Setup
 

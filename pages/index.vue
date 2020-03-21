@@ -39,15 +39,15 @@
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
-              class="-translate-y-1/2 bg-indigo-100 border-2 border-white cursor-pointer h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
+              class="-translate-y-1/2 bg-blue-100 border-2 border-white h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
             >
-              <Ambulance class="w-3/5 text-indigo-500" />
+              <Ambulance class="w-3/5 text-blue-500" />
             </div>
 
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-indigo-600 transform"
+              class="-translate-y-4 font-extrabold text-4xl text-center text-blue-600 transform"
             >
-              11
+              {{ numberFormat(healthAPI.local_new_cases) }}
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -59,14 +59,14 @@
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
-              class="-translate-y-1/2 bg-indigo-100 border-2 border-white cursor-pointer h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
+              class="-translate-y-1/2 bg-purple-100 border-2 border-white h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
             >
-              <Hospital class="w-3/5 text-indigo-500" />
+              <Hospital class="w-3/5 text-purple-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-indigo-600 transform"
+              class="-translate-y-4 font-extrabold text-4xl text-center text-purple-600 transform"
             >
-              70
+              {{ numberFormat(healthAPI.local_total_cases) }}
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -78,14 +78,18 @@
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
-              class="-translate-y-1/2 bg-indigo-100 border-2 border-white cursor-pointer h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
+              class="-translate-y-1/2 bg-teal-100 border-2 border-white h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
             >
-              <Patient class="w-3/5 text-indigo-500" />
+              <Patient class="w-3/5 text-teal-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-indigo-600 transform"
+              class="-translate-y-4 font-extrabold text-4xl text-center text-teal-600 transform"
             >
-              241
+              {{
+                numberFormat(
+                  healthAPI.local_total_number_of_individuals_in_hospitals
+                )
+              }}
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -97,14 +101,14 @@
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
-              class="-translate-y-1/2 bg-indigo-100 border-2 border-white cursor-pointer h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
+              class="-translate-y-1/2 bg-red-100 border-2 border-white h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
             >
-              <Death class="w-3/5 text-indigo-500" />
+              <Death class="w-3/5 text-red-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-indigo-600 transform"
+              class="-translate-y-4 font-extrabold text-4xl text-center text-red-600 transform"
             >
-              0
+              {{ numberFormat(healthAPI.local_deaths) }}
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -116,14 +120,21 @@
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
-              class="-translate-y-1/2 bg-indigo-100 border-2 border-white cursor-pointer h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
+              class="-translate-y-1/2 bg-orange-100 border-2 border-white h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
             >
-              <Chart class="w-3/5 text-indigo-500" />
+              <Chart class="w-3/5 text-orange-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-indigo-600 transform"
+              class="-translate-y-4 font-extrabold text-4xl text-center text-orange-600 transform"
             >
-              1%
+              {{
+                parseFloat(
+                  (
+                    (healthAPI.local_deaths / healthAPI.local_total_cases) *
+                    100
+                  ).toFixed(2)
+                )
+              }}%
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -135,14 +146,14 @@
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
-              class="-translate-y-1/2 bg-indigo-100 border-2 border-white cursor-pointer h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
+              class="-translate-y-1/2 bg-green-100 border-2 border-white h-20 inline-flex items-center justify-center mx-auto rounded-full shadow transform w-20"
             >
-              <Wellness class="w-3/5 text-indigo-500" />
+              <Wellness class="w-3/5 text-green-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-indigo-600 transform"
+              class="-translate-y-4 font-extrabold text-4xl text-center text-green-600 transform"
             >
-              1
+              {{ numberFormat(healthAPI.local_recovered) }}
             </span>
             <span
               class="font-semibold text-center text-gray-600 text-sm uppercase"
@@ -152,6 +163,14 @@
           </div>
         </div>
       </div>
+      <p
+        class="-translate-y-12 leading-7 mt-6 text-center text-gray-500 text-sm transform"
+      >
+        * Since Health Promotion Bureau is issuing verified data from reliable
+        sources, this might take several minutes to be updated.
+      </p>
+
+      {{ healthAPI }}
     </section>
   </div>
 </template>
@@ -173,12 +192,23 @@ export default {
     Death,
     Chart,
     Wellness
+  },
+  data() {
+    return {
+      healthAPI: {}
+    }
+  },
+  asyncData({ $axios }) {
+    return $axios
+      .get('https://www.hpb.health.gov.lk/api/get-current-statistical')
+      .then((res) => {
+        return { healthAPI: res.data.data }
+      })
+  },
+  methods: {
+    numberFormat(num) {
+      return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+    }
   }
 }
 </script>
-
-<style>
-svg {
-  /* filter: grayscale(100%); */
-}
-</style>

@@ -57,6 +57,10 @@ export default {
         content:
           (process.env.BASE_URL || 'http://localhost:3000') +
           '/social-banner.png'
+      },
+      {
+        name: 'twitter:creator',
+        content: '@CallMeTharindu'
       }
     ],
     link: [

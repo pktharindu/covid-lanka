@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="bg-gray-200 pt-16 pb-32">
+    <section class="bg-gray-200 pt-16 pb-40">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center mb-5">
           <Logo class="text-indigo-600 w-12 h-12" />
@@ -12,7 +12,7 @@
         </div>
         <div class="text-center">
           <h3
-            class="mt-2 text-3xl leading-8 font-extrabold text-gray-900 sm:text-4xl sm:leading-10"
+            class="mt-2 text-3xl leading-8 font-extrabold text-3ray-900 sm:text-4xl sm:leading-10"
           >
             Stats for Sri Lanka
           </h3>
@@ -25,6 +25,31 @@
             This might take several minutes to be updated, since Health
             Promotion Bureau is issuing verified data from reliable sources.
           </p>
+
+          <label
+            for="local-toggle"
+            class="content-center cursor-pointer inline-flex items-center mt-8"
+          >
+            <div class="font-medium leading-none mr-3 text-gray-700">
+              Local
+            </div>
+            <div class="relative">
+              <input
+                id="local-toggle"
+                v-model="isGlobal"
+                type="checkbox"
+                class="hidden"
+              />
+              <div class="w-16 h-6 bg-gray-400 rounded-full shadow-inner"></div>
+              <div
+                :class="{ 'translate-x-full': isGlobal }"
+                class="-translate-y-1 absolute bg-indigo-500 duration-300 ease-in-out h-8 inset-y-0 left-0 rounded-full shadow transform transition w-8"
+              ></div>
+            </div>
+            <div class="font-medium leading-none ml-3 text-gray-700">
+              Global
+            </div>
+          </label>
         </div>
       </div>
     </section>
@@ -45,10 +70,10 @@
             </div>
 
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-blue-600 transform"
+              class="-translate-y-4 font-extrabold text-3xl text-center text-blue-600 transform"
             >
               <animated-number
-                :value="healthAPI.local_new_cases"
+                :value="newCases"
                 :formatValue="numberFormat"
                 :duration="duration"
               />
@@ -68,10 +93,10 @@
               <Hospital class="w-3/5 text-purple-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-purple-600 transform"
+              class="-translate-y-4 font-extrabold text-3xl text-center text-purple-600 transform"
             >
               <animated-number
-                :value="healthAPI.local_total_cases"
+                :value="totalCases"
                 :formatValue="numberFormat"
                 :duration="duration"
               />
@@ -83,7 +108,7 @@
             </span>
           </div>
           <div
-            v-if="!healthAPI.local_deaths"
+            v-if="!isGlobal && !totalDeaths"
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
@@ -92,12 +117,10 @@
               <Patient class="w-3/5 text-teal-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-teal-600 transform"
+              class="-translate-y-4 font-extrabold text-3xl text-center text-teal-600 transform"
             >
               <animated-number
-                :value="
-                  healthAPI.local_total_number_of_individuals_in_hospitals
-                "
+                :value="hospitalizations"
                 :formatValue="numberFormat"
                 :duration="duration"
               />
@@ -109,7 +132,7 @@
             </span>
           </div>
           <div
-            v-if="healthAPI.local_deaths"
+            v-if="isGlobal || totalDeaths"
             class="bg-white flex flex-col flex-wrap justify-center pb-8 px-6 rounded-lg shadow-lg"
           >
             <div
@@ -118,10 +141,10 @@
               <Death class="w-3/5 text-red-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-red-600 transform"
+              class="-translate-y-4 font-extrabold text-3xl text-center text-red-600 transform"
             >
               <animated-number
-                :value="healthAPI.local_deaths"
+                :value="newDeaths"
                 :formatValue="numberFormat"
                 :duration="duration"
               />
@@ -141,10 +164,10 @@
               <Death class="w-3/5 text-red-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-red-600 transform"
+              class="-translate-y-4 font-extrabold text-3xl text-center text-red-600 transform"
             >
               <animated-number
-                :value="healthAPI.local_deaths"
+                :value="totalDeaths"
                 :formatValue="numberFormat"
                 :duration="duration"
               />
@@ -164,12 +187,10 @@
               <Chart class="w-3/5 text-orange-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-orange-600 transform"
+              class="-translate-y-4 font-extrabold text-3xl text-center text-orange-600 transform"
             >
               <animated-number
-                :value="
-                  (healthAPI.local_deaths / healthAPI.local_total_cases) * 100
-                "
+                :value="fatalityRate"
                 :formatValue="floatFormat"
                 :duration="duration"
               />%
@@ -189,10 +210,10 @@
               <Wellness class="w-3/5 text-green-500" />
             </div>
             <span
-              class="-translate-y-4 font-extrabold text-4xl text-center text-green-600 transform"
+              class="-translate-y-4 font-extrabold text-3xl text-center text-green-600 transform"
             >
               <animated-number
-                :value="healthAPI.local_recovered"
+                :value="recovered"
                 :formatValue="numberFormat"
                 :duration="duration"
               />
@@ -239,9 +260,42 @@ export default {
   },
   data() {
     return {
-      value: 0,
-      duration: 2000,
+      isGlobal: false,
+      duration: 1500,
       healthAPI: {}
+    }
+  },
+  computed: {
+    newCases() {
+      return this.isGlobal
+        ? this.healthAPI.global_new_cases
+        : this.healthAPI.local_new_cases
+    },
+    totalCases() {
+      return this.isGlobal
+        ? this.healthAPI.global_total_cases
+        : this.healthAPI.local_total_cases
+    },
+    hospitalizations() {
+      return this.healthAPI.local_total_number_of_individuals_in_hospitals
+    },
+    newDeaths() {
+      return this.isGlobal
+        ? this.healthAPI.global_new_deaths
+        : this.healthAPI.local_new_deaths
+    },
+    totalDeaths() {
+      return this.isGlobal
+        ? this.healthAPI.global_deaths
+        : this.healthAPI.local_deaths
+    },
+    fatalityRate() {
+      return (this.totalDeaths / this.totalCases) * 100
+    },
+    recovered() {
+      return this.isGlobal
+        ? this.healthAPI.global_recovered
+        : this.healthAPI.local_recovered
     }
   },
   asyncData({ $axios }) {

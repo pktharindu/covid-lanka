@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="bg-gray-200 pt-16 pb-40">
+    <section class="bg-indigo-100 pt-16 pb-40">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center mb-5">
           <Logo class="text-indigo-600 w-16 h-16" />
@@ -272,31 +272,21 @@
 
     <section>
       <div class="lg:px-8 max-w-6xl mx-auto px-4 sm:px-6">
-        <label
-          v-for="(item, index) in btn"
-          :key="index"
-          :class="{ active: item.value == radio }"
-          class=""
-        >
-          <input
-            v-model="radio"
-            :name="dataLabel"
-            :value="item.value"
-            type="radio"
-          />
-          {{ item.label }}
-        </label>
-        <client-only>
-          <chartjs-line
-            :backgroundcolor="bgColor"
-            :beginzero="beginZero"
-            :bind="true"
-            :bordercolor="borderColor"
-            :data="data[radio]"
-            :datalabel="dataLabel"
-            :labels="labels[radio]"
-          />
-        </client-only>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <label class="block">
+            <span class="text-gray-700">Countries</span>
+            <multiselect
+              v-model="selectedCountries"
+              :options="Object.keys(pomberAPI)"
+              :multiple="true"
+              :searchable="true"
+              :show-labels="false"
+              :allow-empty="false"
+              :max="3"
+              placeholder="Pick a value"
+            ></multiselect>
+          </label>
+        </div>
 
         <div class="flex flex-wrap items-center justify-end mt-8">
           <label
@@ -319,7 +309,7 @@
         </div>
       </div>
     </section>
-    <!-- {{ pomberAPI }} -->
+    {{ datasets }}
   </div>
 </template>
 
@@ -353,23 +343,7 @@ export default {
       healthAPI: {},
       pomberAPI: {},
       selectedCountries: ['Sri Lanka'],
-      bgColor: '#81894e',
-      beginZero: true,
-      borderColor: '#81894e',
-      btn: [
-        { label: 'Today', value: 'day' },
-        { label: 'This Week', value: 'week' }
-      ],
-      data: {
-        day: [1, 3, 5, 3, 1],
-        week: [12, 14, 16, 18, 11, 13, 15]
-      },
-      dataLabel: 'Foo',
-      labels: {
-        day: [8, 10, 12, 14, 16],
-        week: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-      },
-      radio: 'day'
+      beginZero: true
     }
   },
   computed: {
@@ -410,6 +384,9 @@ export default {
           (label) => label !== 'date'
         ) ?? []
       )
+    },
+    datasets() {
+      return this.pomberAPI[this.selectedCountries[0]]
     }
   },
   async asyncData({ $axios, query, error }) {
@@ -435,3 +412,23 @@ export default {
   }
 }
 </script>
+
+<style>
+.multiselect__tags span,
+.multiselect__option--highlight {
+  @apply bg-indigo-600;
+}
+.multiselect__tag-icon:after {
+  @apply text-indigo-100;
+}
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  @apply bg-indigo-500;
+}
+.multiselect__option {
+  @apply text-sm;
+}
+.multiselect__option--selected.multiselect__option--highlight {
+  @apply bg-red-400;
+}
+</style>

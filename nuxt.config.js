@@ -93,7 +93,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '@/plugins/chart', ssr: false }],
+  plugins: [],
   /*
    ** Nuxt.js dev-modules
    */
@@ -117,7 +117,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-vue-multiselect'
   ],
   /*
    ** Axios module configuration

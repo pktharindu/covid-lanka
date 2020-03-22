@@ -16,7 +16,7 @@
           >
             Coronavirus (COVID-19) Disease Pandemic Statistics in Sri Lanka
           </h3>
-          <p class="leading-10 max-w-2xl mt-6 mx-auto text-gray-500 text-xl">
+          <p class="leading-10 max-w-2xl mt-6 mx-auto text-gray-600 text-xl">
             Be
             <span class="font-semibold text-indigo-600 uppercase">ready</span>
             for coronavirus. Be
@@ -271,28 +271,28 @@
     </section>
 
     <section>
+      <h3
+        class="font-bold lg:px-8 max-w-3xl mb-12 mx-auto px-4 sm:px-6 text-2xl text-center text-gray-700"
+      >
+        Daily Coronavirus (COVID-19) Cases
+      </h3>
       <div class="lg:px-8 max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div class="">
-            <h3 class="text-2xl font-bold text-gray-800 mx-auto mb-6">
-              Daily Coronavirus (COVID-19) Cases
-            </h3>
-            <label class="block">
-              <span class="block font-semibold mb-2 text-gray-600 uppercase">
-                Select Countries
-              </span>
-              <multiselect
-                v-model="selectedCountries"
-                :options="Object.keys(pomberAPI)"
-                :multiple="true"
-                :searchable="true"
-                :show-labels="false"
-                :allow-empty="false"
-                :max="3"
-                placeholder="Pick a value"
-              ></multiselect>
-            </label>
-          </div>
+        <div class="grid grid-cols-1 gap-10">
+          <label class="block">
+            <span class="block font-semibold mb-2 text-gray-600 uppercase">
+              Select Countries
+            </span>
+            <multiselect
+              v-model="selectedCountries"
+              :options="Object.keys(pomberAPI)"
+              :multiple="true"
+              :searchable="true"
+              :show-labels="false"
+              :allow-empty="false"
+              :max="3"
+              placeholder="Pick a value"
+            ></multiselect>
+          </label>
         </div>
 
         <client-only>

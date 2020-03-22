@@ -269,19 +269,27 @@
         </p>
       </div>
     </section>
+
+    <section>
+      <div class="lg:px-8 max-w-6xl mx-auto px-4 sm:px-6">
+        <LineChart />
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import Logo from '../components/Logo'
-import Ambulance from '../components/icons/Ambulance'
-import Hospital from '../components/icons/Hospital'
-import Patient from '../components/icons/Patient'
-import Tombstone from '../components/icons/Tombstone'
-import Death from '../components/icons/Death'
-import Chart from '../components/icons/Chart'
-import Wellness from '../components/icons/Wellness'
+import Logo from '@/components/Logo'
+import Ambulance from '@/components/icons/Ambulance'
+import Hospital from '@/components/icons/Hospital'
+import Patient from '@/components/icons/Patient'
+import Tombstone from '@/components/icons/Tombstone'
+import Death from '@/components/icons/Death'
+import Chart from '@/components/icons/Chart'
+import Wellness from '@/components/icons/Wellness'
+import LineChart from '@/components/LineChart'
 import AnimatedNumber from 'animated-number-vue'
+
 export default {
   components: {
     Logo,
@@ -292,7 +300,8 @@ export default {
     Death,
     Chart,
     Wellness,
-    AnimatedNumber
+    AnimatedNumber,
+    LineChart
   },
   data() {
     return {

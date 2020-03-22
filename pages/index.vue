@@ -272,9 +272,54 @@
 
     <section>
       <div class="lg:px-8 max-w-6xl mx-auto px-4 sm:px-6">
-        <LineChart />
+        <label
+          v-for="(item, index) in btn"
+          :key="index"
+          :class="{ active: item.value == radio }"
+          class=""
+        >
+          <input
+            v-model="radio"
+            :name="dataLabel"
+            :value="item.value"
+            type="radio"
+          />
+          {{ item.label }}
+        </label>
+        <client-only>
+          <chartjs-line
+            :backgroundcolor="bgColor"
+            :beginzero="beginZero"
+            :bind="true"
+            :bordercolor="borderColor"
+            :data="data[radio]"
+            :datalabel="dataLabel"
+            :labels="labels[radio]"
+          />
+        </client-only>
+
+        <div class="flex flex-wrap items-center justify-end mt-8">
+          <label
+            v-for="label in Object.keys(
+              pomberAPI[selectedCountries[0]][0]
+            ).filter((label) => label !== 'date')"
+            class="inline-flex items-center mr-6 last:mr-0"
+          >
+            <input
+              :value="label"
+              :name="label"
+              v-model="checkedLabel"
+              type="checkbox"
+              class="form-checkbox text-indigo-600 h-6 w-6"
+            />
+            <span class="capitalize leading-none ml-3 text-lg text-gray-600">
+              {{ label }}
+            </span>
+          </label>
+        </div>
       </div>
     </section>
+    <!-- {{ pomberAPI }} -->
   </div>
 </template>
 
@@ -287,7 +332,6 @@ import Tombstone from '@/components/icons/Tombstone'
 import Death from '@/components/icons/Death'
 import Chart from '@/components/icons/Chart'
 import Wellness from '@/components/icons/Wellness'
-import LineChart from '@/components/LineChart'
 import AnimatedNumber from 'animated-number-vue'
 
 export default {
@@ -300,14 +344,32 @@ export default {
     Death,
     Chart,
     Wellness,
-    AnimatedNumber,
-    LineChart
+    AnimatedNumber
   },
   data() {
     return {
       isGlobal: false,
       duration: 1000,
-      healthAPI: {}
+      healthAPI: {},
+      pomberAPI: {},
+      selectedCountries: ['Sri Lanka'],
+      bgColor: '#81894e',
+      beginZero: true,
+      borderColor: '#81894e',
+      btn: [
+        { label: 'Today', value: 'day' },
+        { label: 'This Week', value: 'week' }
+      ],
+      data: {
+        day: [1, 3, 5, 3, 1],
+        week: [12, 14, 16, 18, 11, 13, 15]
+      },
+      dataLabel: 'Foo',
+      labels: {
+        day: [8, 10, 12, 14, 16],
+        week: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      },
+      radio: 'day'
     }
   },
   computed: {
@@ -341,14 +403,24 @@ export default {
       return this.isGlobal
         ? this.healthAPI.global_recovered
         : this.healthAPI.local_recovered
+    },
+    checkedLabel() {
+      return (
+        Object.keys(this.pomberAPI[this.selectedCountries[0]][0]).filter(
+          (label) => label !== 'date'
+        ) ?? []
+      )
     }
   },
-  asyncData({ $axios }) {
-    return $axios
-      .get('https://www.hpb.health.gov.lk/api/get-current-statistical')
-      .then((res) => {
-        return { healthAPI: res.data.data }
-      })
+  async asyncData({ $axios, query, error }) {
+    const [healthRes, pomberRes] = await Promise.all([
+      $axios.get('https://www.hpb.health.gov.lk/api/get-current-statistical'),
+      $axios.get('https://pomber.github.io/covid19/timeseries.json')
+    ])
+    return {
+      healthAPI: healthRes.data.data,
+      pomberAPI: pomberRes.data
+    }
   },
   methods: {
     numberFormat(num) {

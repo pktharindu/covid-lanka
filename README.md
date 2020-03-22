@@ -1,6 +1,6 @@
 # COVID-19 Sri Lanka
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/72c42416-4b54-4690-8b17-f0d153d7616f/deploy-status)](https://app.netlify.com/sites/covid-lanka/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/72c42416-4b54-4690-8b17-f0d153d7616f/deploy-status)](https://app.netlify.com/sites/covid-lanka/deploys) ![Trigger Netlify Build](https://github.com/pktharindu/covid-lanka/workflows/Trigger%20Netlify%20Build/badge.svg)
 
 ![Banner](https://raw.githubusercontent.com/pktharindu/covid-lanka/master/static/social-banner.png)
 

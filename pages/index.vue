@@ -288,6 +288,21 @@
           </label>
         </div>
 
+        <client-only>
+          <div
+            v-for="selectedCountry in selectedCountries"
+            :key="selectedCountry"
+            class="mt-6"
+          >
+            <span class="text-gray-700 font-bold">{{ selectedCountry }}</span>
+            <VueApexCharts
+              :options="chartOptions"
+              :series="series"
+              :height="chartHeight"
+            ></VueApexCharts>
+          </div>
+        </client-only>
+
         <div class="flex flex-wrap items-center justify-end mt-8">
           <label
             v-for="label in Object.keys(
@@ -343,7 +358,29 @@ export default {
       healthAPI: {},
       pomberAPI: {},
       selectedCountries: ['Sri Lanka'],
-      beginZero: true
+      chartHeight: 300,
+      series: [
+        {
+          name: 'High - 2013',
+          data: [28, 29, 33, 36, 32, 32, 33]
+        },
+        {
+          name: 'Low - 2013',
+          data: [12, 11, 14, 18, 17, 13, 13]
+        }
+      ],
+      chartOptions: {
+        chart: {
+          id: 'fb',
+          group: 'social',
+          type: 'line'
+        },
+        yaxis: {
+          labels: {
+            minWidth: 40
+          }
+        }
+      }
     }
   },
   computed: {

@@ -133,6 +133,9 @@ export default {
   /*
    ** Build configuration
    */
+  purgeCSS: {
+    whitelistPatterns: [/multiselect/]
+  },
   build: {
     /*
      ** You can extend webpack config here

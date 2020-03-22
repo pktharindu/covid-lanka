@@ -61,7 +61,7 @@
         class="-translate-y-12 lg:px-8 max-w-6xl mx-auto px-4 sm:px-6 transform"
       >
         <div
-          class="bg-gray-200 gap-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
+          class="bg-indigo-100 gap-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
         >
           <div
             class="bg-white flex flex-col flex-wrap justify-center py-8 lg:pt-0 px-6 rounded-lg shadow-lg"
@@ -273,26 +273,33 @@
     <section>
       <div class="lg:px-8 max-w-6xl mx-auto px-4 sm:px-6">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <label class="block">
-            <span class="text-gray-700">Countries</span>
-            <multiselect
-              v-model="selectedCountries"
-              :options="Object.keys(pomberAPI)"
-              :multiple="true"
-              :searchable="true"
-              :show-labels="false"
-              :allow-empty="false"
-              :max="3"
-              placeholder="Pick a value"
-            ></multiselect>
-          </label>
+          <div class="">
+            <h3 class="text-2xl font-bold text-gray-800 mx-auto mb-6">
+              Daily Coronavirus (COVID-19) Cases
+            </h3>
+            <label class="block">
+              <span class="block font-semibold mb-2 text-gray-600 uppercase">
+                Select Countries
+              </span>
+              <multiselect
+                v-model="selectedCountries"
+                :options="Object.keys(pomberAPI)"
+                :multiple="true"
+                :searchable="true"
+                :show-labels="false"
+                :allow-empty="false"
+                :max="3"
+                placeholder="Pick a value"
+              ></multiselect>
+            </label>
+          </div>
         </div>
 
         <client-only>
           <div
             v-for="selectedCountry in selectedCountries"
             :key="selectedCountry"
-            class="mt-6"
+            class="mt-8"
           >
             <span class="text-gray-700 font-bold">{{ selectedCountry }}</span>
             <VueApexCharts
@@ -302,29 +309,8 @@
             ></VueApexCharts>
           </div>
         </client-only>
-
-        <!-- <div class="flex flex-wrap items-center justify-end mt-8">
-          <label
-            v-for="label in Object.keys(
-              pomberAPI[selectedCountries[0]][0]
-            ).filter((label) => label !== 'date')"
-            class="inline-flex items-center mr-6 last:mr-0"
-          >
-            <input
-              :value="label"
-              :name="label"
-              v-model="checkedLabel"
-              type="checkbox"
-              class="form-checkbox text-indigo-600 h-6 w-6"
-            />
-            <span class="capitalize leading-none ml-3 text-lg text-gray-600">
-              {{ label }}
-            </span>
-          </label>
-        </div> -->
       </div>
     </section>
-    <!-- {{ datasets }} -->
   </div>
 </template>
 
@@ -353,8 +339,6 @@ export default {
   },
   data() {
     return {
-      loading: true,
-      errored: false,
       isGlobal: false,
       duration: 1000,
       healthAPI: {},
@@ -450,10 +434,17 @@ export default {
           dashArray: [0, 8, 5],
           curve: 'smooth'
         },
+        labels: this.pomberAPI[country].map((item) => item.date),
         xaxis: {
-          categories: this.pomberAPI[country].map((item) =>
-            this.$moment(item.date).format('MMM D')
-          )
+          title: {
+            text: 'Daily Cases'
+          },
+          type: 'datetime',
+          labels: {
+            formatter: (value) => {
+              return this.$moment(new Date(value)).format('ll')
+            }
+          }
         }
       }
     }

@@ -93,7 +93,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    {
+      src: '~/plugins/vue-apexchart.js',
+      ssr: false
+    }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -117,7 +122,8 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-vue-multiselect'
   ],
   /*
    ** Axios module configuration
@@ -127,6 +133,9 @@ export default {
   /*
    ** Build configuration
    */
+  purgeCSS: {
+    whitelistPatterns: [/multiselect/]
+  },
   build: {
     /*
      ** You can extend webpack config here

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="bg-gray-200 pt-16 pb-40">
+    <section class="bg-indigo-100 pt-16 pb-40">
       <div class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center mb-5">
           <Logo class="text-indigo-600 w-16 h-16" />
@@ -16,7 +16,7 @@
           >
             Coronavirus (COVID-19) Disease Pandemic Statistics in Sri Lanka
           </h3>
-          <p class="leading-10 max-w-2xl mt-6 mx-auto text-gray-500 text-xl">
+          <p class="leading-10 max-w-2xl mt-6 mx-auto text-gray-600 text-xl">
             Be
             <span class="font-semibold text-indigo-600 uppercase">ready</span>
             for coronavirus. Be
@@ -61,7 +61,7 @@
         class="-translate-y-12 lg:px-8 max-w-6xl mx-auto px-4 sm:px-6 transform"
       >
         <div
-          class="bg-gray-200 gap-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
+          class="bg-indigo-100 gap-1 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6"
         >
           <div
             class="bg-white flex flex-col flex-wrap justify-center py-8 lg:pt-0 px-6 rounded-lg shadow-lg"
@@ -269,19 +269,62 @@
         </p>
       </div>
     </section>
+
+    <section>
+      <h3
+        class="font-bold lg:px-8 max-w-3xl mb-12 mx-auto px-4 sm:px-6 text-2xl text-center text-gray-700"
+      >
+        Daily Coronavirus (COVID-19) Cases
+      </h3>
+      <div class="lg:px-8 max-w-6xl mx-auto px-4 sm:px-6">
+        <div class="grid grid-cols-1 gap-10">
+          <label class="block">
+            <span class="block font-semibold mb-2 text-gray-600 uppercase">
+              Select Countries
+            </span>
+            <multiselect
+              v-model="selectedCountries"
+              :options="Object.keys(pomberAPI)"
+              :multiple="true"
+              :searchable="true"
+              :show-labels="false"
+              :allow-empty="false"
+              :max="3"
+              placeholder="Pick a value"
+            ></multiselect>
+          </label>
+        </div>
+
+        <client-only>
+          <div
+            v-for="selectedCountry in selectedCountries"
+            :key="selectedCountry"
+            class="mt-8"
+          >
+            <span class="text-gray-700 font-bold">{{ selectedCountry }}</span>
+            <VueApexCharts
+              :options="chartOptions(selectedCountry)"
+              :series="dataset(selectedCountry)"
+              :height="chartHeight"
+            ></VueApexCharts>
+          </div>
+        </client-only>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
-import Logo from '../components/Logo'
-import Ambulance from '../components/icons/Ambulance'
-import Hospital from '../components/icons/Hospital'
-import Patient from '../components/icons/Patient'
-import Tombstone from '../components/icons/Tombstone'
-import Death from '../components/icons/Death'
-import Chart from '../components/icons/Chart'
-import Wellness from '../components/icons/Wellness'
+import Logo from '@/components/Logo'
+import Ambulance from '@/components/icons/Ambulance'
+import Hospital from '@/components/icons/Hospital'
+import Patient from '@/components/icons/Patient'
+import Tombstone from '@/components/icons/Tombstone'
+import Death from '@/components/icons/Death'
+import Chart from '@/components/icons/Chart'
+import Wellness from '@/components/icons/Wellness'
 import AnimatedNumber from 'animated-number-vue'
+
 export default {
   components: {
     Logo,
@@ -298,7 +341,10 @@ export default {
     return {
       isGlobal: false,
       duration: 1000,
-      healthAPI: {}
+      healthAPI: {},
+      pomberAPI: {},
+      selectedCountries: ['Sri Lanka'],
+      chartHeight: 300
     }
   },
   computed: {
@@ -332,14 +378,27 @@ export default {
       return this.isGlobal
         ? this.healthAPI.global_recovered
         : this.healthAPI.local_recovered
+    },
+    checkedLabel() {
+      return (
+        Object.keys(this.pomberAPI[this.selectedCountries[0]][0]).filter(
+          (label) => label !== 'date'
+        ) ?? []
+      )
+    },
+    datasets() {
+      return this.pomberAPI[this.selectedCountries[0]]
     }
   },
-  asyncData({ $axios }) {
-    return $axios
-      .get('https://www.hpb.health.gov.lk/api/get-current-statistical')
-      .then((res) => {
-        return { healthAPI: res.data.data }
-      })
+  async asyncData({ $axios, query, error }) {
+    const [healthRes, pomberRes] = await Promise.all([
+      $axios.get('https://www.hpb.health.gov.lk/api/get-current-statistical'),
+      $axios.get('https://pomber.github.io/covid19/timeseries.json')
+    ])
+    return {
+      healthAPI: healthRes.data.data,
+      pomberAPI: pomberRes.data
+    }
   },
   methods: {
     numberFormat(num) {
@@ -350,7 +409,65 @@ export default {
     },
     floatFormat(num) {
       return parseFloat(num.toFixed(2))
+    },
+    capitalizeFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    },
+    dataset(country) {
+      const result = []
+
+      this.checkedLabel.forEach((label) => {
+        result.push({
+          name: this.capitalizeFirstLetter(label),
+          data: this.pomberAPI[country].map((item) => item[label])
+        })
+      })
+
+      return result
+    },
+    chartOptions(country) {
+      return {
+        chart: {
+          type: 'line'
+        },
+        stroke: {
+          dashArray: [0, 8, 5],
+          curve: 'smooth'
+        },
+        labels: this.pomberAPI[country].map((item) => item.date),
+        xaxis: {
+          title: {
+            text: 'Daily Cases'
+          },
+          type: 'datetime',
+          labels: {
+            formatter: (value) => {
+              return this.$moment(new Date(value)).format('ll')
+            }
+          }
+        }
+      }
     }
   }
 }
 </script>
+
+<style>
+.multiselect__tags span,
+.multiselect__option--highlight {
+  @apply bg-indigo-600;
+}
+.multiselect__tag-icon:after {
+  @apply text-indigo-100;
+}
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+  @apply bg-indigo-500;
+}
+.multiselect__option {
+  @apply text-sm;
+}
+.multiselect__option--selected.multiselect__option--highlight {
+  @apply bg-red-400;
+}
+</style>

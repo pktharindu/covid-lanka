@@ -296,14 +296,14 @@
           >
             <span class="text-gray-700 font-bold">{{ selectedCountry }}</span>
             <VueApexCharts
-              :options="chartOptions"
-              :series="series"
+              :options="chartOptions(selectedCountry)"
+              :series="dataset(selectedCountry)"
               :height="chartHeight"
             ></VueApexCharts>
           </div>
         </client-only>
 
-        <div class="flex flex-wrap items-center justify-end mt-8">
+        <!-- <div class="flex flex-wrap items-center justify-end mt-8">
           <label
             v-for="label in Object.keys(
               pomberAPI[selectedCountries[0]][0]
@@ -321,10 +321,10 @@
               {{ label }}
             </span>
           </label>
-        </div>
+        </div> -->
       </div>
     </section>
-    {{ datasets }}
+    <!-- {{ datasets }} -->
   </div>
 </template>
 
@@ -353,34 +353,14 @@ export default {
   },
   data() {
     return {
+      loading: true,
+      errored: false,
       isGlobal: false,
       duration: 1000,
       healthAPI: {},
       pomberAPI: {},
       selectedCountries: ['Sri Lanka'],
-      chartHeight: 300,
-      series: [
-        {
-          name: 'High - 2013',
-          data: [28, 29, 33, 36, 32, 32, 33]
-        },
-        {
-          name: 'Low - 2013',
-          data: [12, 11, 14, 18, 17, 13, 13]
-        }
-      ],
-      chartOptions: {
-        chart: {
-          id: 'fb',
-          group: 'social',
-          type: 'line'
-        },
-        yaxis: {
-          labels: {
-            minWidth: 40
-          }
-        }
-      }
+      chartHeight: 300
     }
   },
   computed: {
@@ -445,6 +425,37 @@ export default {
     },
     floatFormat(num) {
       return parseFloat(num.toFixed(2))
+    },
+    capitalizeFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1)
+    },
+    dataset(country) {
+      const result = []
+
+      this.checkedLabel.forEach((label) => {
+        result.push({
+          name: this.capitalizeFirstLetter(label),
+          data: this.pomberAPI[country].map((item) => item[label])
+        })
+      })
+
+      return result
+    },
+    chartOptions(country) {
+      return {
+        chart: {
+          type: 'line'
+        },
+        stroke: {
+          dashArray: [0, 8, 5],
+          curve: 'smooth'
+        },
+        xaxis: {
+          categories: this.pomberAPI[country].map((item) =>
+            this.$moment(item.date).format('MMM D')
+          )
+        }
+      }
     }
   }
 }

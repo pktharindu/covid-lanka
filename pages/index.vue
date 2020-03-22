@@ -12,15 +12,10 @@
         </div>
         <div class="text-center">
           <h3
-            class="mt-2 max-w-3xl text-3xl font-extrabold text-3ray-900 sm:text-4xl mx-auto"
+            class="mt-2 max-w-3xl text-3xl font-extrabold text-gray-800 sm:text-4xl mx-auto"
           >
             Coronavirus (COVID-19) Disease Pandemic Statistics in Sri Lanka
           </h3>
-          <span
-            class="bg-indigo-500 font-bold font-mono inline-block mt-5 px-2 py-1 rounded-full text-white text-xs tracking-wider"
-          >
-            {{ $moment(healthAPI.update_date_time).format('LLL') }}
-          </span>
           <p class="leading-10 max-w-2xl mt-6 mx-auto text-gray-500 text-xl">
             Be
             <span class="font-semibold text-indigo-600 uppercase">ready</span>
@@ -265,13 +260,14 @@
             </span>
           </div>
         </div>
+        <p class="text-center mt-6 text-gray-500 text-sm">
+          Last Updated: {{ $moment(healthAPI.update_date_time).format('LLL') }}
+        </p>
+        <p class="text-center mt-4 text-gray-500 text-sm">
+          * Since the Health Promotion Bureau is issuing verified data from
+          reliable sources, this might take several minutes to be updated.
+        </p>
       </div>
-      <p
-        class="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 -translate-y-12 leading-7 mt-6 text-center text-gray-500 text-sm transform"
-      >
-        * Since the Health Promotion Bureau is issuing verified data from
-        reliable sources, this might take several minutes to be updated.
-      </p>
     </section>
   </div>
 </template>

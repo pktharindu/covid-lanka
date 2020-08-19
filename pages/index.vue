@@ -79,7 +79,7 @@
               "
               data-balloon-length="medium"
               data-balloon-pos="up"
-              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-blue-600 transform"
+              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-2xl text-center text-blue-600 transform"
             >
               <animated-number
                 :value="newCases"
@@ -107,7 +107,7 @@
               "
               data-balloon-length="medium"
               data-balloon-pos="up"
-              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-purple-600 transform"
+              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-2xl text-center text-purple-600 transform"
             >
               <animated-number
                 :value="totalCases"
@@ -136,7 +136,7 @@
               "
               data-balloon-length="medium"
               data-balloon-pos="up"
-              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-teal-600 transform"
+              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-2xl text-center text-teal-600 transform"
             >
               <animated-number
                 :value="hospitalized"
@@ -165,7 +165,7 @@
               "
               data-balloon-length="medium"
               data-balloon-pos="up"
-              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-yellow-600 transform"
+              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-2xl text-center text-yellow-600 transform"
             >
               <animated-number
                 :value="newDeaths"
@@ -191,7 +191,7 @@
               :aria-label="numberFormat(totalDeaths) + ' deaths in total'"
               data-balloon-length="medium"
               data-balloon-pos="up"
-              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-red-600 transform"
+              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-2xl text-center text-red-600 transform"
             >
               <animated-number
                 :value="totalDeaths"
@@ -217,7 +217,7 @@
               :aria-label="Math.ceil(fatalityRate) + ' in 100 might die'"
               data-balloon-length="medium"
               data-balloon-pos="up"
-              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-orange-600 transform"
+              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-2xl text-center text-orange-600 transform"
             >
               <animated-number
                 :value="fatalityRate"
@@ -245,7 +245,7 @@
               "
               data-balloon-length="medium"
               data-balloon-pos="up"
-              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-3xl text-center text-green-600 transform"
+              class="mt-6 lg:mt-0 lg:-translate-y-4 font-extrabold text-2xl text-center text-green-600 transform"
             >
               <animated-number
                 :value="recovered"

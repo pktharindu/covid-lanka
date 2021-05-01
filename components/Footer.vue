@@ -4,7 +4,7 @@
       &copy; COVID-19 Sri Lanka {{ $moment().format('YYYY') }}. All rights
       reserved. Made with <span class="text-lg">&hearts;</span> by
       <a
-        href="https://pktharindu.github.io"
+        href="https://www.pktharindu.com"
         target="_blank"
         class="font-bold text-indigo-600"
         >P. K. Tharindu</a
